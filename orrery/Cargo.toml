@@ -1,0 +1,10 @@
+[package]
+name = "orrery"
+version = "0.2.0"
+edition = "2021"
+
+[dependencies]
+crossterm = "0.28"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+rand = "0.8"
+anyhow = "1.0"
