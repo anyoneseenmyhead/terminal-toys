@@ -1,4 +1,4 @@
-# Publish
+# Terminal Toys
 
 A curated collection of terminal-based Rust applications and simulations.  
 Each subdirectory is a standalone Cargo crate designed to run directly in a modern terminal.
