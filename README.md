@@ -1,3 +1,5 @@
+# Terminal Toys
+
 This is a collection of terminal-based Rust projects intended for distribution or sharing. Each subfolder is a standalone project with its own build and run instructions.
 
 ## Run
