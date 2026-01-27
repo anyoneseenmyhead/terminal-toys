@@ -45,6 +45,7 @@ cargo build --release
 
 ### Aquarium  
 An interactive, animated aquarium rendered in the terminal.
+![Aquarium screenshot](screenshots/aquarium.png)
 
 ### Ascii Raymarch  
 A real-time ASCII raymarching experiment in the console.
