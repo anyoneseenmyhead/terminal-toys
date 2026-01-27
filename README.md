@@ -45,76 +45,147 @@ cargo build --release
 
 ### Aquarium  
 An interactive, animated aquarium rendered in the terminal.
+
 ![Aquarium screenshot](screenshots/aquarium.png)
 
 ### Ascii Raymarch  
 A real-time ASCII raymarching experiment in the console.
 
+![Raymarch screenshot](screenshots/raymarch.png)
+
 ### Aurora  
 A simulation of aurora borealis-style light curtains using terminal graphics.
+
+![Aurora screenshot](screenshots/aurora.png)
+
+
+
 
 ### Boids  
 A classic boids flocking simulation adapted for terminal rendering.
 
+![Boids screenshot](screenshots/boids.png)
+
+
 ### Cmatrix2  
 A Matrix-inspired falling-glyph visualization.
+
+![Cmatrix2 screenshot](screenshots/cmatrix2.png)
+
 
 ### Fluidlite Braille  
 A fluid simulation rendered using Unicode Braille for higher vertical resolution.
 
+![Fluidlite Braille screenshot](screenshots/fluidlite.png)
+
+
 ### Fountain  
 A particle fountain simulation rendered in the terminal.
+
+![Fountain screenshot](screenshots/fountain.png)
+
 
 ### Frogger  
 A playable Frogger-style arcade game in the console.
 
+![Frogger screenshot](screenshots/frogger.png)
+
+
 ### Grayscott  
 A reaction-diffusion (Gray–Scott) simulation visualized in the terminal.
+
+![Grayscott screenshot](screenshots/grayscott.png)
+
 
 ### Lunarlander  
 A terminal-based lunar lander game with physics and input control.
 
+![Lunarlander screenshot](screenshots/lunarlander.png)
+
+
 ### Mazewalker  
 A maze navigation and exploration simulation.
+
+![Mazewalker screenshot](screenshots/mazewalker.png)
+
 
 ### Newton  
 A physics-based Newton’s cradle style simulation.
 
+![Newton screenshot](screenshots/newton.png)
+
+
 ### Orrery  
 A planetary or orbital system visualization rendered in the terminal.
+
+![Orrery screenshot](screenshots/orrery.png)
+
 
 ### Pipes  
 A dynamic pipe-routing animation inspired by classic screensavers.
 
+![Pipes screenshot](screenshots/pipes.png)
+
+
 ### Planetarium  
 A rotating planet and celestial visualization with informational overlays.
+
+![Planetarium screenshot](screenshots/planetarium.png)
+
 
 ### Plasmaglobe  
 A plasma-style energy globe effect adapted to terminal graphics.
 
+![Plasmaglobe screenshot](screenshots/plasmaglobe.png)
+
+
 ### Retrowave  
 An infinite synthwave-style road and horizon animation.
+
+![Retrowave screenshot](screenshots/retrowave.png)
+
 
 ### Starfield  
 A 3D starfield flight simulation rendered in the terminal.
 
+![Starfield screenshot](screenshots/starfield.png)
+
+
 ### Tenprint  
 A continuously generating maze based on the classic 10 PRINT algorithm.
+
+![Tenprint screenshot](screenshots/tenprint.png)
+
 
 ### Termpath  
 A terminal-based pathfinding or traversal visualization.
 
+![Termpath screenshot](screenshots/termpath.png)
+
+
 ### Terrarium Braille  
 A cellular ecosystem simulation rendered with Braille characters.
+
+![Terrarium Braille screenshot](screenshots/terrarium.png)
+
 
 ### Unsinkable  
 A buoyancy and stability simulation rendered in the terminal.
 
+![Unsinkable screenshot](screenshots/unsinkable.png)
+
+
 ### Voronoi  
 A Voronoi diagram and region growth visualization.
 
+![Voronoi screenshot](screenshots/voronoi.png)
+
+
 ### Weather  
 A terminal-based weather visualization and data display tool.
+
+![Weather screenshot](screenshots/weather.png)
+
 
 ---
 
