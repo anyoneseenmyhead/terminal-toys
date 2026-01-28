@@ -1,17 +1,14 @@
 # Terminal Toys
 
-A curated collection of terminal-based Rust applications and simulations that I have made.
+A curated collection of terminal-based Rust applications and simulations that I have made. They are all written in Rust so that they can run in the terminal/command prompt of any OS.
 
 Each subdirectory is a standalone Cargo crate designed to run directly in a modern terminal.
 
 These projects focus on:
 
 - real-time terminal rendering
-
 - ASCII and Braille-based graphics
-
 - interactive simulations and games
-
 - experimentation with terminal performance, input, and animation
 
 ## Requirements
@@ -19,9 +16,7 @@ These projects focus on:
 Most issues users encounter are related to terminal choice, font support, or Unicode rendering rather than the code itself.
 
 - Rust (stable)
-
 - A UTF-8 capable terminal  
-
 - Recommended terminals: Kitty, Alacritty, Windows Terminal
 
 Some projects use Unicode Braille characters and benefit from truecolor support.
@@ -47,7 +42,6 @@ Open Command Prompt or PowerShell and verify:
 ```sh
 
 rustc --version
-
 cargo --version
 
 ```
@@ -73,7 +67,6 @@ Then restart your shell and verify:
 ```sh
 
 rustc --version
-
 cargo --version
 
 ```
@@ -103,7 +96,6 @@ Restart your terminal and verify:
 ```sh
 
 rustc --version
-
 cargo --version
 
 ```
@@ -135,7 +127,6 @@ Each subdirectory in this repository is its own independent Cargo crate and must
 ```sh
 
 cd <project>
-
 cargo run --release
 
 ```
@@ -147,7 +138,6 @@ cargo run --release
 ```sh
 
 cd <project>
-
 cargo build --release
 
 ```
