@@ -2,6 +2,8 @@
 
 Ascii Raymarch is a small Rust project that runs in your terminal. It renders an interactive ascii raymarch experience in the console.
 
+![ascii_raymarch screenshot](../screenshots/raymarch.png)
+
 ## Run
 
 ```sh

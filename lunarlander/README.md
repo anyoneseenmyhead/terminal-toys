@@ -2,6 +2,8 @@
 
 Lunarlander is a small Rust project that runs in your terminal. It renders an interactive lunarlander experience in the console.
 
+![lunarlander screenshot](../screenshots/lunarlander.png)
+
 ## Run
 
 ```sh

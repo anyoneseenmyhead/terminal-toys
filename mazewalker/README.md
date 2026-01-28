@@ -2,6 +2,8 @@
 
 Mazewalker is a small Rust project that runs in your terminal. It renders an interactive mazewalker experience in the console.
 
+![mazewalker screenshot](../screenshots/mazewalker.png)
+
 ## Run
 
 ```sh

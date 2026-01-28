@@ -2,6 +2,8 @@
 
 Termpath is a small Rust project that runs in your terminal. It renders an interactive termpath experience in the console.
 
+![termpath screenshot](../screenshots/termpath.png)
+
 ## Run
 
 ```sh

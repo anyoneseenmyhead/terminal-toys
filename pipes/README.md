@@ -2,6 +2,8 @@
 
 Pipes is a small Rust project that runs in your terminal. It renders an interactive pipes experience in the console.
 
+![pipes screenshot](../screenshots/pipes.png)
+
 ## Run
 
 ```sh

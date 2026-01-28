@@ -2,6 +2,8 @@
 
 Grayscott is a small Rust project that runs in your terminal. It renders an interactive grayscott experience in the console.
 
+![grayscott screenshot](../screenshots/grayscott.png)
+
 ## Run
 
 ```sh

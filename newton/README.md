@@ -2,6 +2,8 @@
 
 Newton is a small Rust project that runs in your terminal. It renders an interactive newton experience in the console.
 
+![newton screenshot](../screenshots/newton.png)
+
 ## Run
 
 ```sh

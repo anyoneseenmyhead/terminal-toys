@@ -2,6 +2,8 @@
 
 Antcolony is a small Rust project that runs in your terminal. It renders an interactive antcolony experience in the console.
 
+![antcolony screenshot](../screenshots/antcolony.png)
+
 ## Run
 
 ```sh

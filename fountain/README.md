@@ -2,6 +2,8 @@
 
 Fountain is a small Rust project that runs in your terminal. It renders an interactive fountain experience in the console.
 
+![fountain screenshot](../screenshots/fountain.png)
+
 ## Run
 
 ```sh

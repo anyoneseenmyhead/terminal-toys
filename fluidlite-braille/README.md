@@ -2,6 +2,8 @@
 
 Fluidlite Braille is a small Rust project that runs in your terminal. It renders an interactive fluidlite braille experience in the console.
 
+![fluidlite-braille screenshot](../screenshots/fluidlite.png)
+
 ## Run
 
 ```sh

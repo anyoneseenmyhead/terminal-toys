@@ -2,6 +2,8 @@
 
 Starfield is a small Rust project that runs in your terminal. It renders an interactive starfield experience in the console.
 
+![starfield screenshot](../screenshots/starfield.png)
+
 ## Run
 
 ```sh

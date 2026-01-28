@@ -2,6 +2,8 @@
 
 Cmatrix2 is a small Rust project that runs in your terminal. It renders an interactive cmatrix2 experience in the console.
 
+![cmatrix2 screenshot](../screenshots/cmatrix2.png)
+
 ## Run
 
 ```sh

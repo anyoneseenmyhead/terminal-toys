@@ -2,6 +2,8 @@
 
 Orrery is a small Rust project that runs in your terminal. It renders an interactive orrery experience in the console.
 
+![orrery screenshot](../screenshots/orrery.png)
+
 ## Run
 
 ```sh

@@ -2,6 +2,8 @@
 
 Tenprint is a small Rust project that runs in your terminal. It renders an interactive tenprint experience in the console.
 
+![tenprint screenshot](../screenshots/tenprint.png)
+
 ## Run
 
 ```sh

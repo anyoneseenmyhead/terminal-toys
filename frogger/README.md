@@ -2,6 +2,8 @@
 
 Frogger is a small Rust project that runs in your terminal. It renders an interactive frogger experience in the console.
 
+![frogger screenshot](../screenshots/frogger.png)
+
 ## Run
 
 ```sh

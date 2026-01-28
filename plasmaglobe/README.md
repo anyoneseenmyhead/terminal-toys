@@ -2,6 +2,8 @@
 
 Plasmaglobe is a small Rust project that runs in your terminal. It renders an interactive plasmaglobe experience in the console.
 
+![plasmaglobe screenshot](../screenshots/plasmaglobe.png)
+
 ## Run
 
 ```sh

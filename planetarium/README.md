@@ -2,6 +2,8 @@
 
 Planetarium is a small Rust project that runs in your terminal. It renders an interactive planetarium experience in the console.
 
+![planetarium screenshot](../screenshots/planetarium.png)
+
 ## Run
 
 ```sh
