@@ -47,7 +47,7 @@ impl Default for Settings {
     fn default() -> Self {
         Self {
             skin_name: "default".to_string(),
-            fps_cap: 60,
+            fps_cap: 30,
             enable_color: true,
             enable_braille: true,
             seed: 0xC0FFEE_u64,
@@ -349,10 +349,10 @@ impl Default for Rules {
         );
 
         Self {
-            tick_step_ms: 250,
+            tick_step_ms: 500,
             catchup_step_ms: 5000,
             catchup_max_secs: 7 * 24 * 3600,
-            meter_rate_scale: 0.05,
+            meter_rate_scale: 0.02,
             decay_by_stage,
         }
     }
