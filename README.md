@@ -1,6 +1,7 @@
+
 # Terminal Toys
 
-A curated collection of terminal-based Rust applications and simulations.  
+A curated collection of terminal-based Rust applications and simulations that I have made.
 Each subdirectory is a standalone Cargo crate designed to run directly in a modern terminal.
 
 These projects focus on:
@@ -9,9 +10,6 @@ These projects focus on:
 - interactive simulations and games
 - experimentation with terminal performance, input, and animation
 
-This repository is intended as both a playground and a portfolio of terminal UI work.
-
----
 
 ## Requirements
 
@@ -21,13 +19,13 @@ This repository is intended as both a playground and a portfolio of terminal UI 
 
 Some projects use Unicode Braille characters and benefit from truecolor support.
 
----
+
 
 ## Installing Rust and Cargo
-
 All projects in this repository are written in Rust and use Cargo, Rust’s build system and package manager.
 
-# Windows
+---
+### Windows
 
 Download and run rustup-init.exe from:
 https://www.rust-lang.org/tools/install
@@ -35,56 +33,61 @@ https://www.rust-lang.org/tools/install
 During installation, choose the default options.
 
 Open Command Prompt or PowerShell and verify:
-
+```sh
 rustc --version
 cargo --version
+```
 
 
 If both commands print version numbers, installation succeeded.
 
-Linux
+---
+
+### Linux
 
 Most Linux users should install Rust using rustup (recommended).
-
+```sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
+```
 
 Follow the prompts and accept the default installation.
 
 Then restart your shell and verify:
-
+```sh
 rustc --version
 cargo --version
+```
+---
 
-macOS
+### macOS
 
 Install Command Line Tools if you do not already have them:
-
+```sh
 xcode-select --install
-
+```
 
 Install Rust using rustup:
-
+```sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
+```
 
 Restart your terminal and verify:
 
+```sh
 rustc --version
 cargo --version
-
-Updating Rust
+```
+---
+### Updating Rust
 
 If Rust is already installed, update it with:
-
+```sh
 rustup update
-
-Troubleshooting
+```
+### Troubleshooting
 
 If cargo is not found, ensure ~/.cargo/bin is in your PATH.
-
 On Windows, restart your terminal after installation.
-
 These projects assume stable Rust; nightly is not required.
 
 ## Running a project
