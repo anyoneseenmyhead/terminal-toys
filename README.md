@@ -24,9 +24,8 @@ Some projects use Unicode Braille characters and benefit from truecolor support.
 
 ## Installing Rust and Cargo
 
-Cargo is installed automatically when you install Rust using rustup; no separate Cargo installation is required.
-
 All projects in this repository are written in Rust and use Cargo, Rust’s build system and package manager.
+Cargo is installed automatically when you install Rust using rustup; no separate Cargo installation is required.
 
 
 ### Windows
@@ -151,37 +150,37 @@ An interactive, animated aquarium rendered in the terminal.
 
 ### Ascii Raymarch  
 
-A real-time ASCII raymarching experiment in the console.
+A real-time ASCII raymarching experiment in the console. User can move around with WASD and look around using the arrow keys.
 
 ![Raymarch screenshot](screenshots/raymarch.png)
 
 ### Aurora  
 
-A simulation of aurora borealis-style light curtains using terminal graphics.
+A simulation of aurora borealis-style light curtains using terminal graphics, with tweakable parameters.
 
 ![Aurora screenshot](screenshots/aurora.png)
 
 ### Boids  
 
-A classic boids flocking simulation adapted for terminal rendering.
+A classic boids flocking simulation adapted for terminal rendering, with tweakable parameters.
 
 ![Boids screenshot](screenshots/boids.png)
 
 ### Cmatrix2  
 
-A Matrix-inspired falling-glyph visualization.
+A Matrix-inspired falling-glyph visualization. Inspired by cmatrix, but attempting to be more faithful to the movies. Alternate color themes, and controll of parameters like speed and glyph density.
 
 ![Cmatrix2 screenshot](screenshots/cmatrix2.png)
 
 ### Fluidlite Braille  
 
-A fluid simulation rendered using Unicode Braille for higher vertical resolution.
+A fluid simulation rendered using Unicode Braille for higher vertical resolution. You can move the emitter around and add vorticity, etc.
 
 ![Fluidlite Braille screenshot](screenshots/fluidlite.png)
 
 ### Fountain  
 
-A particle fountain simulation rendered in the terminal.
+A particle fountain simulation rendered in the terminal, with tweakable parameters.
 
 ![Fountain screenshot](screenshots/fountain.png)
 
@@ -193,43 +192,43 @@ A playable Frogger-style arcade game in the console.
 
 ### Grayscott  
 
-A reaction-diffusion (Gray–Scott) simulation visualized in the terminal.
+A reaction-diffusion (Gray–Scott) simulation visualized in the terminal, with tweakable parameters.
 
 ![Grayscott screenshot](screenshots/grayscott.png)
 
 ### Lunarlander  
 
-A terminal-based lunar lander game with physics and input control.
+A terminal-based lunar lander game with physics and input control. Surprisingly addictive little game.
 
 ![Lunarlander screenshot](screenshots/lunarlander.png)
 
 ### Mazewalker  
 
-A maze navigation and exploration simulation.
+A maze navigation and exploration simulation, inspired by a classic Windows screensaver. Foreground and background color of characters can be updated.
 
 ![Mazewalker screenshot](screenshots/mazewalker.png)
 
 ### Newton  
 
-A physics-based Newton’s cradle style simulation.
+A physics-based Newton’s cradle style simulation. Click-clack.
 
 ![Newton screenshot](screenshots/newton.png)
 
 ### Orrery  
 
-A planetary or orbital system visualization rendered in the terminal.
+A planetary or orbital system visualization rendered in the terminal. You can follow specific planets, locked to their orbit, and you can see a rendered view of the planets with facts. This is an extension of the Planetarium code, except no alien glyphs, and with the orbit view.
 
 ![Orrery screenshot](screenshots/orrery.png)
 
 ### Pipes  
 
-A dynamic pipe-routing animation inspired by classic screensavers.
+A dynamic pipe-routing animation inspired by classic screensavers. You can fly the camera around the pipe simulation, which looks pretty impressive for a TUI application.
 
 ![Pipes screenshot](screenshots/pipes.png)
 
 ### Planetarium  
 
-A rotating planet and celestial visualization with informational overlays.
+A rotating planet and celestial visualization with informational overlays, rendered in an "alien language." This idea was further iterated on in the Orrery code.
 
 ![Planetarium screenshot](screenshots/planetarium.png)
 
@@ -247,43 +246,43 @@ An infinite synthwave-style road and horizon animation.
 
 ### Starfield  
 
-A 3D starfield flight simulation rendered in the terminal.
+A 3D starfield flight simulation rendered in the terminal, with tweakable parameters.
 
 ![Starfield screenshot](screenshots/starfield.png)
 
 ### Tenprint  
 
-A continuously generating maze based on the classic 10 PRINT algorithm.
+A continuously generating maze based on the classic 10 PRINT algorithm, with a gradient on the top and bottom that makes the render seem like a rolling cylinder. Various tweakable parameters, including alternate characters and modes.
 
 ![Tenprint screenshot](screenshots/tenprint.png)
 
 ### Termpath  
 
-A terminal-based pathfinding or traversal visualization.
+A terminal-based pathfinding or traversal visualization. Visualizes a few different pathfinding methods like A*.
 
 ![Termpath screenshot](screenshots/termpath.png)
 
 ### Terrarium Braille  
 
-A cellular ecosystem simulation rendered with Braille characters.
+A cellular ecosystem simulation rendered with Braille characters to fake a higher resolution. 
 
 ![Terrarium Braille screenshot](screenshots/terrarium.png)
 
 ### Unsinkable  
 
-A buoyancy and stability simulation rendered in the terminal.
+A buoyancy and stability simulation rendered in the terminal. Modeled after a desk toy that uses liquids of different densities.
 
 ![Unsinkable screenshot](screenshots/unsinkable.png)
 
 ### Voronoi  
 
-A Voronoi diagram and region growth visualization.
+A Voronoi diagram and region growth visualization, with tweakable parameters.
 
 ![Voronoi screenshot](screenshots/voronoi.png)
 
 ### Weather  
 
-A terminal-based weather visualization and data display tool.
+A terminal-based weather visualization and data display tool. Look up the weather using a zip code or lat/lon coordinates. Includes a radar visualization using colored Braille characters.
 
 ![Weather screenshot](screenshots/weather.png)
 
