@@ -1,3 +1,4 @@
+
 # Terminal Toys
 
 A curated collection of terminal-based Rust applications and simulations that I have made. They are all written in Rust so that they can run in the terminal/command prompt of any OS.
@@ -27,7 +28,6 @@ Cargo is installed automatically when you install Rust using rustup; no separate
 
 All projects in this repository are written in Rust and use Cargo, Rust’s build system and package manager.
 
----
 
 ### Windows
 
@@ -131,8 +131,6 @@ cargo run --release
 
 ```
 
----
-
 ## Building a project
 
 ```sh
@@ -142,7 +140,6 @@ cargo build --release
 
 ```
 
----
 
 ## Projects
 
