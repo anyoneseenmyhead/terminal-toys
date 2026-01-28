@@ -23,6 +23,70 @@ Some projects use Unicode Braille characters and benefit from truecolor support.
 
 ---
 
+##Installing Rust and Cargo
+
+All projects in this repository are written in Rust and use Cargo, Rust’s build system and package manager.
+
+#Windows
+
+Download and run rustup-init.exe from:
+https://www.rust-lang.org/tools/install
+
+During installation, choose the default options.
+
+Open Command Prompt or PowerShell and verify:
+
+rustc --version
+cargo --version
+
+
+If both commands print version numbers, installation succeeded.
+
+Linux
+
+Most Linux users should install Rust using rustup (recommended).
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+
+Follow the prompts and accept the default installation.
+
+Then restart your shell and verify:
+
+rustc --version
+cargo --version
+
+macOS
+
+Install Command Line Tools if you do not already have them:
+
+xcode-select --install
+
+
+Install Rust using rustup:
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+
+Restart your terminal and verify:
+
+rustc --version
+cargo --version
+
+Updating Rust
+
+If Rust is already installed, update it with:
+
+rustup update
+
+Troubleshooting
+
+If cargo is not found, ensure ~/.cargo/bin is in your PATH.
+
+On Windows, restart your terminal after installation.
+
+These projects assume stable Rust; nightly is not required.
+
 ## Running a project
 
 ```sh
