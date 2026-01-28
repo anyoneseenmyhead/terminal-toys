@@ -168,7 +168,7 @@ A classic boids flocking simulation adapted for terminal rendering, with tweakab
 
 ### Cmatrix2  
 
-A Matrix-inspired falling-glyph visualization. Inspired by cmatrix, but attempting to be more faithful to the movies. Alternate color themes, and controll of parameters like speed and glyph density.
+A Matrix-inspired falling-glyph visualization. Inspired by cmatrix, but attempting to be more faithful to the movies. Alternate color themes, and control of parameters like speed and glyph density.
 
 ![Cmatrix2 screenshot](screenshots/cmatrix2.png)
 
