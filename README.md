@@ -256,6 +256,13 @@ A continuously generating maze based on the classic 10 PRINT algorithm, with a g
 
 ![Tenprint screenshot](screenshots/tenprint.png)
 
+### Termigotchi  
+
+A Tamagotchi-like digital pet for the terminal. Feed, play, clean, and care for your pet as it grows.
+
+![Termigotchi screenshot](screenshots/termigotchi.png)
+
+
 ### Termpath  
 
 A terminal-based pathfinding or traversal visualization. Visualizes a few different pathfinding methods like A*.
