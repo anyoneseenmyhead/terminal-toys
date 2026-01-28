@@ -23,11 +23,11 @@ Some projects use Unicode Braille characters and benefit from truecolor support.
 
 ---
 
-##Installing Rust and Cargo
+## Installing Rust and Cargo
 
 All projects in this repository are written in Rust and use Cargo, Rust’s build system and package manager.
 
-#Windows
+# Windows
 
 Download and run rustup-init.exe from:
 https://www.rust-lang.org/tools/install
