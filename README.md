@@ -74,6 +74,8 @@ cargo --version
 
 ### macOS
 
+*NOTE: There seem to be rendering issues on the Apple Terminal app. I've tested a few of the toys in the Alacritty terminal app without issue. There will need to be some bugfixes in order for some of these toys to run on the default Terminal app.*
+
 Install Command Line Tools if you do not already have them:
 
 ```sh
