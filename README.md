@@ -55,7 +55,7 @@ Most Linux users should install Rust using rustup (recommended).
 
 ```sh
 
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```
 
@@ -74,6 +74,8 @@ cargo --version
 
 ### macOS
 
+*NOTE: There seem to be rendering issues on the Apple Terminal app. I've tested a few of the toys in the Alacritty terminal app without issue. There will need to be some bugfixes in order for some of these toys to run on the default Terminal app.*
+
 Install Command Line Tools if you do not already have them:
 
 ```sh
@@ -86,7 +88,7 @@ Install Rust using rustup:
 
 ```sh
 
-curl --proto '=https' --tlsv1.2 -sSf [https://sh.rustup.rs](https://sh.rustup.rs) | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```
 
