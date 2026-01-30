@@ -198,6 +198,12 @@ A reaction-diffusion (Gray–Scott) simulation visualized in the terminal, with 
 
 ![Grayscott screenshot](screenshots/grayscott.png)
 
+### Lavalamp  
+
+A terminal-based lava lamp simulation with tweakable parameters.
+
+![Lavalamp screenshot](screenshots/lavalamp.png)
+
 ### Lunarlander  
 
 A terminal-based lunar lander game with physics and input control. Surprisingly addictive little game.
