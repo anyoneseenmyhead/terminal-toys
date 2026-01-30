@@ -300,14 +300,14 @@ A Voronoi diagram and region growth visualization, with tweakable parameters.
 A terminal-based weather visualization and data display tool. Look up the weather using a zip code or lat/lon coordinates. Includes a radar visualization using colored Braille characters. Note: this one takes some args. You can do:
 ```
 cargo run --release -- --zip 90210
-```
-or
-```
+cargo run --release -- --country ca --zip "E3A" 
 cargo run --release -- --lat 30.350874752934484 --lon -81.70865176410668 
 ```
 The "--" flag on its own lets you provide args.
 If you build the program, you can use args normally, like:
 ```
+weather --zip 90210
+weather --country ca --zip "E3A" 
 weather --lat 30.350874752934484 --lon -81.70865176410668
 ```
 
