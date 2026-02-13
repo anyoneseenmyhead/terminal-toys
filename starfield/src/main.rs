@@ -221,12 +221,13 @@ fn idx(x: usize, y: usize, w: usize) -> usize {
     y * w + x
 }
 
-fn parse_args() -> (u64, usize, u64, bool) {
-    // --fps N --stars N --seed N --warp
+fn parse_args() -> (u64, usize, u64, bool, bool) {
+    // --fps N --stars N --seed N --warp --screensaver
     let mut fps: u64 = 60;
     let mut stars: usize = 500;
     let mut seed: u64 = 0;
     let mut warp = false;
+    let mut screensaver = false;
 
     let mut it = env::args().skip(1);
     while let Some(a) = it.next() {
@@ -247,11 +248,12 @@ fn parse_args() -> (u64, usize, u64, bool) {
                 }
             }
             "--warp" => warp = true,
+            "--screensaver" => screensaver = true,
             "--help" | "-h" => {
                 println!(
                     "starfield\n\n\
                      Usage:\n\
-                     \tstarfield [--fps N] [--stars N] [--seed N] [--warp]\n\n\
+                     \tstarfield [--fps N] [--stars N] [--seed N] [--warp] [--screensaver]\n\n\
                      Controls:\n\
                      \tQ / Esc quit\n\
                      \tSpace pause\n\
@@ -268,11 +270,11 @@ fn parse_args() -> (u64, usize, u64, bool) {
         }
     }
 
-    (fps, stars, seed, warp)
+    (fps, stars, seed, warp, screensaver)
 }
 
 fn main() -> io::Result<()> {
-    let (fps, mut target_stars, seed_arg, warp_arg) = parse_args();
+    let (fps, mut target_stars, seed_arg, warp_arg, screensaver) = parse_args();
 
     let mut stdout = io::stdout();
     execute!(
@@ -617,28 +619,30 @@ fn main() -> io::Result<()> {
             let cells_w = tw as usize;
             let cells_h = th as usize;
 
-            // HUD lines
-            let hud1 = format!(
-                "starfield  stars:{}  speed:{:.2}  trails:{}  theme:{}  fps:{:.0}  (Q quit, H help)",
-                target_stars,
-                speed,
-                if trails { "on" } else { "off" },
-                THEMES[theme_index].name,
-                fps_smooth
-            );
-            let hud2 = "Up/Down speed  Left/Right density  Space pause  T trails  C theme  R reseed";
+            // HUD lines (suppressed in screensaver mode)
+            if !screensaver {
+                let hud1 = format!(
+                    "starfield  stars:{}  speed:{:.2}  trails:{}  theme:{}  fps:{:.0}  (Q quit, H help)",
+                    target_stars,
+                    speed,
+                    if trails { "on" } else { "off" },
+                    THEMES[theme_index].name,
+                    fps_smooth
+                );
+                let hud2 = "Up/Down speed  Left/Right density  Space pause  T trails  C theme  R reseed";
 
-            // Clear only when needed; rely on full redraw of changed cells + HUD overwrite.
-            // Overwrite HUD areas each frame for stability.
-            queue!(out, cursor::MoveTo(0, 0), SetForegroundColor(Color::DarkGrey), Print(pad_to(&hud1, cells_w)))?;
-            queue!(out, cursor::MoveTo(0, 1), SetForegroundColor(Color::DarkGrey), Print(pad_to(hud2, cells_w)))?;
+                // Clear only when needed; rely on full redraw of changed cells + HUD overwrite.
+                // Overwrite HUD areas each frame for stability.
+                queue!(out, cursor::MoveTo(0, 0), SetForegroundColor(Color::DarkGrey), Print(pad_to(&hud1, cells_w)))?;
+                queue!(out, cursor::MoveTo(0, 1), SetForegroundColor(Color::DarkGrey), Print(pad_to(hud2, cells_w)))?;
+            }
 
-            if show_help {
+            if show_help && !screensaver {
                 draw_help(&mut out, cells_w, cells_h)?;
             }
 
             // Render field starting at y=2 (leave HUD)
-            let y_start = 2usize;
+            let y_start = if screensaver { 0usize } else { 2usize };
             for cy in y_start..cells_h {
                 for cx in 0..cells_w {
                     let cell_i = idx(cx, cy, cells_w);

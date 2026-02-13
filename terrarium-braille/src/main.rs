@@ -179,6 +179,10 @@ struct Args {
     /// extra safety rows to not use (avoid scrolling)
     #[arg(long, default_value_t = 1)]
     margin_rows: u16,
+
+    /// run in screensaver mode (no HUD; no effect currently)
+    #[arg(long, default_value_t = false)]
+    screensaver: bool,
 }
 
 fn main() -> io::Result<()> {

@@ -147,6 +147,7 @@ USAGE:
 OPTIONS:
   -h, --help        Show this help message
   -V, --version     Show version information
+      --screensaver Run without HUD (no effect; display only)
 
 KEYS (runtime):
   q / Esc           Quit

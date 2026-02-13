@@ -1,3 +1,4 @@
+use std::env;
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
@@ -201,6 +202,31 @@ fn to_rgb(c: Vec3) -> (u8, u8, u8) {
     (r, g, b)
 }
 
+fn parse_screensaver() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(a) = it.next() {
+        match a.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "retrowave\n\n\
+                     Usage:\n\
+                     \tretrowave [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tArrow keys speed/lane\n\
+                     \tR         reset speed/lane\n\
+                     \tH         toggle HUD/help (hidden in screensaver)\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
+}
+
 struct Frame {
     cols: u16,
     rows: u16,
@@ -341,6 +367,8 @@ fn main() -> io::Result<()> {
     )?;
     terminal::enable_raw_mode()?;
 
+    let screensaver = parse_screensaver();
+
     let mut cleanup = || -> io::Result<()> {
         let mut out = io::stdout();
         execute!(out, EndSynchronizedUpdate).ok();
@@ -367,7 +395,7 @@ fn main() -> io::Result<()> {
         let mut warp = 0.55f32;
         let mut speed_target = speed;
         let mut lane_target = lane;
-        let mut show_help = true;
+        let mut show_help = !screensaver;
 
         let start = Instant::now();
         let mut last = Instant::now();
@@ -385,7 +413,11 @@ fn main() -> io::Result<()> {
                     }
                     Event::Key(k) if k.kind != KeyEventKind::Release => match k.code {
                         KeyCode::Char('q') | KeyCode::Char('Q') | KeyCode::Esc => return Ok(()),
-                        KeyCode::Char('h') | KeyCode::Char('H') => show_help = !show_help,
+                        KeyCode::Char('h') | KeyCode::Char('H') => {
+                            if !screensaver {
+                                show_help = !show_help;
+                            }
+                        }
                         KeyCode::Up => {
                             speed_target = (speed_target + 0.15).min(3.0);
                         }

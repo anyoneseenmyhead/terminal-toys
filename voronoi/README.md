@@ -2,8 +2,6 @@
 
 Voronoi is a small Rust project that runs in your terminal. It renders an interactive voronoi experience in the console.
 
-![voronoi screenshot](../screenshots/voronoi.png)
-
 ## Run
 
 ```sh

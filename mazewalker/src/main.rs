@@ -1,3 +1,4 @@
+use std::env;
 use std::f32::consts::PI;
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
@@ -180,6 +181,31 @@ const BRAILLE_BITS: [[u8; 4]; 2] = [
     [0x08, 0x10, 0x20, 0x80], // right column
 ];
 
+fn parse_screensaver() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(a) = it.next() {
+        match a.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "mazewalker\n\n\
+                     Usage:\n\
+                     \tmazewalker [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tC         cycle foreground color\n\
+                     \tX         cycle background color\n\
+                     \t(Any other key exits)\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
+}
+
 // 4x4 Bayer matrix for ordered dithering (0..15)
 const BAYER4: [[u8; 4]; 4] = [
     [0, 8, 2, 10],
@@ -200,6 +226,7 @@ fn cp_to_char(cp: u32) -> char {
 }
 
 fn main() -> io::Result<()> {
+    let screensaver = parse_screensaver();
     let mut stdout = io::stdout();
 
     terminal::enable_raw_mode()?;
@@ -323,7 +350,7 @@ fn main() -> io::Result<()> {
         let (tw, th) = terminal::size()?;
         let w = tw.max(40) as usize;
         let h = th.max(12) as usize;
-        let view_h = (h.saturating_sub(1)).max(1); // last row is status
+        let view_h = if screensaver { h } else { (h.saturating_sub(1)).max(1) }; // last row is status
 
         // Resize buffers
         if tw != prev_w || th != prev_h || frame_cp.len() != w * h {
@@ -543,23 +570,25 @@ fn main() -> io::Result<()> {
         }
 
         // Status line (ASCII on the last row)
-        let status = format!(
-            " mazewalker  cell:{},{} dir:{}   [c] fg  [x] bg  (other key exits)",
-            cell.0,
-            cell.1,
-            match dir.rem_euclid(4) {
-                0 => "E",
-                1 => "S",
-                2 => "W",
-                _ => "N",
+        if !screensaver {
+            let status = format!(
+                " mazewalker  cell:{},{} dir:{}   [c] fg  [x] bg  (other key exits)",
+                cell.0,
+                cell.1,
+                match dir.rem_euclid(4) {
+                    0 => "E",
+                    1 => "S",
+                    2 => "W",
+                    _ => "N",
+                }
+            );
+            let status_row = (h - 1) * w;
+            for i in 0..w {
+                frame_cp[status_row + i] = ' ' as u32;
             }
-        );
-        let status_row = (h - 1) * w;
-        for i in 0..w {
-            frame_cp[status_row + i] = ' ' as u32;
-        }
-        for (i, ch) in status.chars().take(w).enumerate() {
-            frame_cp[status_row + i] = ch as u32;
+            for (i, ch) in status.chars().take(w).enumerate() {
+                frame_cp[status_row + i] = ch as u32;
+            }
         }
 
         // Render

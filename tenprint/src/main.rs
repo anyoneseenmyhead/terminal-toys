@@ -1,3 +1,4 @@
+use std::env;
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
@@ -415,13 +416,44 @@ fn render_frame(
     Ok(())
 }
 
+fn parse_args() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(arg) = it.next() {
+        match arg.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "tenprint\n\n\
+                     Usage:\n\
+                     \ttenprint [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tSpace     pause\n\
+                     \tH         toggle HUD/help\n\
+                     \tC         cycle glyph set\n\
+                     \tM         cycle bias mode\n\
+                     \tS         cycle generator\n\
+                     \tF / B     cycle colors\n\
+                     \t+ / -     speed\n\
+                     \tR         reset\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
+}
+
 fn main() -> io::Result<()> {
+    let screensaver = parse_args();
     let mut out = io::stdout();
 
     terminal::enable_raw_mode()?;
     execute!(out, EnterAlternateScreen, cursor::Hide, DisableLineWrap)?;
 
-    let result = run(&mut out);
+    let result = run(&mut out, screensaver);
 
     execute!(out, EnableLineWrap, cursor::Show, LeaveAlternateScreen)?;
     terminal::disable_raw_mode()?;
@@ -429,13 +461,13 @@ fn main() -> io::Result<()> {
     result
 }
 
-fn run(out: &mut impl Write) -> io::Result<()> {
+fn run(out: &mut impl Write, screensaver: bool) -> io::Result<()> {
     let mut glyphs = GlyphSet::UnicodeSlashes;
     let mut bias_mode = BiasMode::Fair;
     let mut gen_mode = GenMode::Independent;
 
     let mut paused = false;
-    let mut show_help = true;
+    let mut show_help = !screensaver;
 
     let fg_palette = [
         Rgb {
@@ -497,7 +529,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
         &buf,
         fg_palette[fg_idx],
         bg_palette[bg_idx],
-        show_help,
+        show_help && !screensaver,
         w,
         h,
         glyphs,
@@ -529,7 +561,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                         &buf,
                         fg_palette[fg_idx],
                         bg_palette[bg_idx],
-                        show_help,
+                        show_help && !screensaver,
                         w,
                         h,
                         glyphs,
@@ -550,7 +582,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -574,7 +606,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -600,7 +632,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -625,7 +657,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -644,7 +676,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -660,7 +692,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -676,7 +708,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
                             &buf,
                             fg_palette[fg_idx],
                             bg_palette[bg_idx],
-                            show_help,
+                            show_help && !screensaver,
                             w,
                             h,
                             glyphs,
@@ -732,7 +764,7 @@ fn run(out: &mut impl Write) -> io::Result<()> {
             &buf,
             fg_palette[fg_idx],
             bg_palette[bg_idx],
-            show_help,
+            show_help && !screensaver,
             w,
             h,
             glyphs,

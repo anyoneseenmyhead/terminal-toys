@@ -9,6 +9,7 @@ use crossterm::{
     },
 };
 use rand::{rngs::StdRng, Rng, SeedableRng};
+use std::env;
 use std::{
     io::{self, Stdout, Write},
     time::{Duration, Instant},
@@ -87,6 +88,34 @@ fn wrap01(mut x: f32) -> f32 {
     x
 }
 
+fn parse_screensaver() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(a) = it.next() {
+        match a.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "boids\n\n\
+                     Usage:\n\
+                     \tboids [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tSpace     pause\n\
+                     \tH         toggle HUD (disabled in screensaver)\n\
+                     \tR         reset flock\n\
+                     \tArrows    adjust boid count / params\n\
+                     \t+ / -     speed\n\
+                     \tC         color theme\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
+}
+
 // Braille cell is 2x4 dots.
 // Dots are numbered (1..8) with this layout:
 // (0,0)=1 (0,1)=2 (0,2)=3 (0,3)=7
@@ -121,6 +150,7 @@ fn render_braille(
     p: Params,
     frame_ms: u64,
     show_help: bool,
+    screensaver: bool,
     fg: Color,
     // buffers
     cells: &mut Vec<u8>,
@@ -128,7 +158,7 @@ fn render_braille(
     line_buf: &mut String,
     needs_full_redraw: &mut bool,
 ) -> io::Result<()> {
-    let status_rows = 1u16;
+    let status_rows = if screensaver { 0u16 } else { 1u16 };
     let bh = ch.saturating_sub(status_rows);
 
     let bw = cw as usize;
@@ -220,28 +250,30 @@ fn render_braille(
         }
     }
 
-    let help = if show_help {
-        "Keys: q quit | space pause | r reset | arrows: boids/params | +/- speed | h help | c color"
-    } else {
-        "Press h for keys"
-    };
+    if !screensaver {
+        let help = if show_help {
+            "Keys: q quit | space pause | r reset | arrows: boids/params | +/- speed | h help | c color"
+        } else {
+            "Press h for keys"
+        };
 
-    let status = format!(
-        "Boids (braille)  [{}]  n:{}  neigh:{:.0} sep:{:.0}  {}ms/f  {}",
-        if paused { "paused" } else { "running" },
-        boids.len(),
-        p.neigh_r,
-        p.sep_r,
-        frame_ms,
-        help
-    );
+        let status = format!(
+            "Boids (braille)  [{}]  n:{}  neigh:{:.0} sep:{:.0}  {}ms/f  {}",
+            if paused { "paused" } else { "running" },
+            boids.len(),
+            p.neigh_r,
+            p.sep_r,
+            frame_ms,
+            help
+        );
 
-    queue!(
-        out,
-        cursor::MoveTo(0, bh),
-        Clear(ClearType::CurrentLine),
-        Print(status)
-    )?;
+        queue!(
+            out,
+            cursor::MoveTo(0, bh),
+            Clear(ClearType::CurrentLine),
+            Print(status)
+        )?;
+    }
 
     prev_cells.copy_from_slice(cells);
     *needs_full_redraw = false;
@@ -447,6 +479,7 @@ fn reset_boids(rng: &mut StdRng, n: usize) -> Vec<Boid> {
 }
 
 fn main() -> io::Result<()> {
+    let screensaver = parse_screensaver();
     let mut stdout = io::stdout();
 
     execute!(stdout, EnterAlternateScreen, cursor::Hide, DisableLineWrap)?;
@@ -514,8 +547,10 @@ fn main() -> io::Result<()> {
                     KeyCode::Char('q') | KeyCode::Esc => break 'outer,
                     KeyCode::Char(' ') => paused = !paused,
                     KeyCode::Char('h') => {
-                        show_help = !show_help;
-                        needs_full_redraw = true;
+                        if !screensaver {
+                            show_help = !show_help;
+                            needs_full_redraw = true;
+                        }
                     }
                     KeyCode::Char('r') => {
                         boids = reset_boids(&mut rng, boid_count);
@@ -569,13 +604,14 @@ fn main() -> io::Result<()> {
         }
 
         let (cw, ch) = terminal::size()?;
+        let status_rows = if screensaver { 0u16 } else { 1u16 };
 
         let now = Instant::now();
         let dt = (now - last).as_secs_f32();
         last = now;
 
         if !paused {
-            let bh = ch.saturating_sub(1);
+            let bh = ch.saturating_sub(status_rows);
             let world_w = (cw as f32) * 2.0;
             let world_h = (bh as f32) * 4.0;
 
@@ -594,6 +630,7 @@ fn main() -> io::Result<()> {
             p,
             frame_ms,
             show_help,
+            screensaver,
             themes[theme_idx],
             &mut cells,
             &mut prev_cells,

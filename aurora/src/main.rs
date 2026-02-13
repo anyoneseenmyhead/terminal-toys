@@ -9,6 +9,7 @@ use crossterm::{
     },
 };
 use rand::{rngs::StdRng, Rng, SeedableRng};
+use std::env;
 use std::{
     cmp::max,
     io::{stdout, Write},
@@ -77,6 +78,36 @@ impl Default for Config {
             paused: false,
         }
     }
+}
+
+fn parse_screensaver() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(a) = it.next() {
+        match a.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "aurora\n\n\
+                     Usage:\n\
+                     \taurora [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tSpace     pause\n\
+                     \tH         toggle HUD (disabled in screensaver)\n\
+                     \tS         toggle stars\n\
+                     \tArrows    adjust activity / wind\n\
+                     \t[ / ]     curtains\n\
+                     \t- / +     height\n\
+                     \t, / .     hue shift\n\
+                     \tR         reset\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
 }
 
 // ------------------------------
@@ -228,6 +259,7 @@ fn aurora_palette(height01: f32, intensity01: f32, hue_shift: f32) -> Rgb {
 }
 
 fn main() -> std::io::Result<()> {
+    let screensaver = parse_screensaver();
     let mut stdout = stdout();
     terminal::enable_raw_mode()?;
     execute!(stdout, EnterAlternateScreen, DisableLineWrap, cursor::Hide)?;
@@ -235,7 +267,7 @@ fn main() -> std::io::Result<()> {
     // Best-effort: reduce tearing in terminals that support it.
     let _ = execute!(stdout, BeginSynchronizedUpdate);
 
-    let res = run(&mut stdout);
+    let res = run(&mut stdout, screensaver);
 
     // Cleanup
     let _ = execute!(stdout, EndSynchronizedUpdate);
@@ -251,8 +283,11 @@ fn main() -> std::io::Result<()> {
     res
 }
 
-fn run(stdout: &mut std::io::Stdout) -> std::io::Result<()> {
+fn run(stdout: &mut std::io::Stdout, screensaver: bool) -> std::io::Result<()> {
     let mut cfg = Config::default();
+    if screensaver {
+        cfg.show_help = false;
+    }
     let mut rng = StdRng::seed_from_u64(u64::from_le_bytes(*b"AUR0RA!!") ^ 0x5EED_1234);
 
     // Buffers for diff-based rendering
@@ -281,7 +316,11 @@ fn run(stdout: &mut std::io::Stdout) -> std::io::Result<()> {
                     match k.code {
                         KeyCode::Char('q') | KeyCode::Char('Q') => return Ok(()),
                         KeyCode::Char(' ') => cfg.paused = !cfg.paused,
-                        KeyCode::Char('h') | KeyCode::Char('H') => cfg.show_help = !cfg.show_help,
+                        KeyCode::Char('h') | KeyCode::Char('H') => {
+                            if !screensaver {
+                                cfg.show_help = !cfg.show_help;
+                            }
+                        }
                         KeyCode::Char('s') | KeyCode::Char('S') => cfg.stars = !cfg.stars,
 
                         // Intensity and shape

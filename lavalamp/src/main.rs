@@ -1,4 +1,5 @@
 // src/main.rs
+use std::env;
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
@@ -277,7 +278,7 @@ struct Sim {
 }
 
 impl Sim {
-    fn new(seed: u64) -> Self {
+    fn new(seed: u64, screensaver: bool) -> Self {
         let mut s = Self {
             rng: StdRng::seed_from_u64(seed),
             blobs: vec![],
@@ -289,7 +290,7 @@ impl Sim {
             wobble: 0.55,
             threshold: 1.22,
             paused: false,
-            show_hud: true,
+            show_hud: !screensaver,
         };
         s.reset_blobs(9);
         s
@@ -566,13 +567,45 @@ fn wax_color(heat: f32, y01: f32, inside: f32, theme: Theme) -> Rgb {
     base.scale(shade * (0.65 + 0.55 * inside.clamp(0.0, 1.0)))
 }
 
+fn parse_screensaver() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(a) = it.next() {
+        match a.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "lavalamp\n\n\
+                     Usage:\n\
+                     \tlavalamp [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tSpace     pause\n\
+                     \tH         toggle HUD (disabled in screensaver)\n\
+                     \tC         cycle theme\n\
+                     \tUp/Down   heat\n\
+                     \tLeft/Right viscosity\n\
+                     \t,/.       wobble\n\
+                     \t- / +     iso threshold\n\
+                     \t[ / ]     blob count\n\
+                     \tR         reseed blobs\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
+}
+
 fn main() -> io::Result<()> {
+    let screensaver = parse_screensaver();
     let mut out = io::stdout();
 
     execute!(out, EnterAlternateScreen, DisableLineWrap, cursor::Hide)?;
     terminal::enable_raw_mode()?;
 
-    let mut sim = Sim::new(7);
+    let mut sim = Sim::new(7, screensaver);
     let mut last = Instant::now();
     let mut acc = 0.0f32;
     let dt_fixed = 1.0 / 120.0;
@@ -593,7 +626,11 @@ fn main() -> io::Result<()> {
                 Event::Key(k) if k.kind == KeyEventKind::Press => match k.code {
                     KeyCode::Char('q') | KeyCode::Esc => quit = true,
                     KeyCode::Char(' ') => sim.paused = !sim.paused,
-                    KeyCode::Char('h') => sim.show_hud = !sim.show_hud,
+                    KeyCode::Char('h') => {
+                        if !screensaver {
+                            sim.show_hud = !sim.show_hud;
+                        }
+                    }
                     KeyCode::Char('c') | KeyCode::Char('C') => {
                         sim.theme_idx = sim.theme_idx.wrapping_add(1);
                     }

@@ -13,6 +13,7 @@ use crossterm::{
 use rand::{rngs::StdRng, Rng, SeedableRng};
 use std::{
     collections::HashSet,
+    env,
     io::{self, Write},
     time::{Duration, Instant},
 };
@@ -569,6 +570,7 @@ fn grid_to_world(p: (i32, i32, i32), gx: i32, gy: i32, gz: i32) -> Vec3 {
 }
 
 fn main() -> Result<()> {
+    let screensaver = parse_screensaver();
     let mut stdout = io::stdout();
 
     execute!(stdout, EnterAlternateScreen, cursor::Hide)?;
@@ -583,14 +585,14 @@ fn main() -> Result<()> {
         Ok(())
     };
 
-    let res = run(&mut stdout);
+    let res = run(&mut stdout, screensaver);
 
     // Always cleanup
     let _ = cleanup();
     res
 }
 
-fn run(stdout: &mut io::Stdout) -> Result<()> {
+fn run(stdout: &mut io::Stdout, screensaver: bool) -> Result<()> {
     let (mut cols, mut rows) = terminal::size()?;
     if cols < 20 || rows < 10 {
         cols = cols.max(20);
@@ -621,7 +623,7 @@ fn run(stdout: &mut io::Stdout) -> Result<()> {
     let mut seg_timer = 0.0f32;
     let mut auto_color = false;
     let mut last_color_cycle = 0.0f32;
-    let mut show_hud = true;
+    let mut show_hud = !screensaver;
 
     let max_segments: usize = 1200;
     let seg_interval = 0.03f32; // seconds per segment at speed=1
@@ -643,7 +645,11 @@ fn run(stdout: &mut io::Stdout) -> Result<()> {
                         (KeyCode::Char('q'), _) | (KeyCode::Char('Q'), _) => return Ok(()),
                         (KeyCode::Char('c'), _) | (KeyCode::Char('C'), _) => world.cycle_palette(),
                         (KeyCode::Char('a'), _) | (KeyCode::Char('A'), _) => auto_color = !auto_color,
-                        (KeyCode::Char('h'), _) | (KeyCode::Char('H'), _) => show_hud = !show_hud,
+                        (KeyCode::Char('h'), _) | (KeyCode::Char('H'), _) => {
+                            if !screensaver {
+                                show_hud = !show_hud;
+                            }
+                        }
                         (KeyCode::Char('r'), _) | (KeyCode::Char('R'), _) => {
                             world.reset();
                             segments.clear();
@@ -769,4 +775,35 @@ fn put_text(frame: &mut Frame, x: usize, y: usize, s: &str, rgb: u32) {
         frame.cell_rgb[i] = rgb;
         cx += 1;
     }
+}
+
+fn parse_screensaver() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(a) = it.next() {
+        match a.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "pipes\n\n\
+                     Usage:\n\
+                     \tpipes [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tArrows    rotate camera\n\
+                     \t+ / -     zoom\n\
+                     \t[ / ]     radius\n\
+                     \tC         palette\n\
+                     \tA         auto color\n\
+                     \tR         reset\n\
+                     \tSpace     pause\n\
+                     \t< / >     speed\n\
+                     \tH         toggle HUD (disabled in screensaver)\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
 }

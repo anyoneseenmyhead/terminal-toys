@@ -2,8 +2,6 @@
 
 Aurora is a small Rust project that runs in your terminal. It renders an interactive aurora experience in the console.
 
-![aurora screenshot](../screenshots/aurora.png)
-
 ## Run
 
 ```sh

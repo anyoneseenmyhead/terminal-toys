@@ -34,6 +34,10 @@ struct Args {
     /// show HUD on start
     #[arg(long, default_value_t = true)]
     hud: bool,
+
+    /// run with no HUD (screensaver mode)
+    #[arg(long, default_value_t = false)]
+    screensaver: bool,
 }
 
 // Braille: each terminal cell represents 2x4 pixels.
@@ -224,7 +228,7 @@ fn main() -> io::Result<()> {
         .as_secs();
     let mut rng = StdRng::seed_from_u64(seed_u64);
 
-    let mut show_hud = args.hud;
+    let mut show_hud = args.hud && !args.screensaver;
     let mut mode = RenderMode::Edges;
 
     let mut seeds_n = args.seeds.max(2);
@@ -267,19 +271,21 @@ fn main() -> io::Result<()> {
                     KeyCode::Char('r') => seeds = make_seeds(seeds_n, &mut rng),
 
                     KeyCode::Char('h') => {
-                        show_hud = !show_hud;
-                        refit(
-                            &mut out,
-                            &mut dims,
-                            &mut owner,
-                            &mut edge,
-                            &mut margin,
-                            &mut seeds,
-                            &mut rng,
-                            args.margin_rows,
-                            show_hud,
-                            seeds_n,
-                        )?;
+                        if !args.screensaver {
+                            show_hud = !show_hud;
+                            refit(
+                                &mut out,
+                                &mut dims,
+                                &mut owner,
+                                &mut edge,
+                                &mut margin,
+                                &mut seeds,
+                                &mut rng,
+                                args.margin_rows,
+                                show_hud,
+                                seeds_n,
+                            )?;
+                        }
                     }
 
                     KeyCode::Char('+') | KeyCode::Char('=') => {

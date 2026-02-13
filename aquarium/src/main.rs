@@ -9,6 +9,7 @@ use crossterm::{
     },
 };
 use rand::{rngs::StdRng, Rng, SeedableRng};
+use std::env;
 use std::f32::consts::PI;
 use std::io::{self, Stdout, Write};
 use std::time::{Duration, Instant};
@@ -303,10 +304,11 @@ struct Aquarium {
     show_help: bool,
     theme_ix: usize,
     feed_impulse: Option<(Vec2, f32)>, // (point, remaining seconds)
+    screensaver: bool,
 }
 
 impl Aquarium {
-    fn new(seed: u64) -> Self {
+    fn new(seed: u64, screensaver: bool) -> Self {
         let mut rng = StdRng::seed_from_u64(seed);
         let mut a = Self {
             rng,
@@ -316,10 +318,11 @@ impl Aquarium {
             enable_bubbles: true,
             current: 0.12,
             paused: false,
-            show_hud: true,
+            show_hud: !screensaver,
             show_help: false,
             theme_ix: 0,
             feed_impulse: None,
+            screensaver,
         };
         for _ in 0..9 {
             a.spawn_fish();
@@ -659,7 +662,39 @@ fn water_intensity(nx: f32, ny: f32, t: f32, seed: u32) -> f32 {
         .clamp(0.0, 1.0)
 }
 
+fn parse_args() -> bool {
+    let mut screensaver = false;
+    let mut it = env::args().skip(1);
+    while let Some(arg) = it.next() {
+        match arg.as_str() {
+            "--screensaver" => screensaver = true,
+            "--help" | "-h" => {
+                println!(
+                    "aquarium\n\n\
+                     Usage:\n\
+                     \taquarium [--screensaver]\n\n\
+                     Controls:\n\
+                     \tQ / Esc   quit\n\
+                     \tC         cycle theme\n\
+                     \tP         pause/resume\n\
+                     \tH         toggle HUD\n\
+                     \t?         toggle help\n\
+                     \t+ / -     add/remove fish\n\
+                     \tB         toggle bubbles\n\
+                     \tF         feed\n\
+                     \t← / →     change current\n\
+                     \t0         reset current\n"
+                );
+                std::process::exit(0);
+            }
+            _ => {}
+        }
+    }
+    screensaver
+}
+
 fn main() -> io::Result<()> {
+    let screensaver = parse_args();
     let mut out = io::stdout();
 
     terminal::enable_raw_mode()?;
@@ -672,7 +707,7 @@ fn main() -> io::Result<()> {
     let mut canvas = BrailleCanvas::new(last_size.0 as usize, last_size.1 as usize);
 
     let seed = (Instant::now().elapsed().as_nanos() as u64) ^ 0xA11CE_u64;
-    let mut aq = Aquarium::new(seed);
+    let mut aq = Aquarium::new(seed, screensaver);
 
     let mut last = Instant::now();
     let mut fps_acc = 0.0f32;
@@ -702,8 +737,16 @@ fn main() -> io::Result<()> {
                             renderer.last_bg = th.bg;
                         }
                         KeyCode::Char('p') | KeyCode::Char('P') => aq.paused = !aq.paused,
-                        KeyCode::Char('h') | KeyCode::Char('H') => aq.show_hud = !aq.show_hud,
-                        KeyCode::Char('?') => aq.show_help = !aq.show_help,
+                        KeyCode::Char('h') | KeyCode::Char('H') => {
+                            if !aq.screensaver {
+                                aq.show_hud = !aq.show_hud;
+                            }
+                        }
+                        KeyCode::Char('?') => {
+                            if !aq.screensaver {
+                                aq.show_help = !aq.show_help;
+                            }
+                        }
                         KeyCode::Char('b') | KeyCode::Char('B') => aq.enable_bubbles = !aq.enable_bubbles,
                         KeyCode::Char('f') | KeyCode::Char('F') => aq.feed(),
                         KeyCode::Char('+') | KeyCode::Char('=') => aq.add_fish(),
@@ -836,13 +879,13 @@ fn render_frame(renderer: &mut Renderer, canvas: &mut BrailleCanvas, aq: &Aquari
         }
     }
 
-    // HUD
-    if aq.show_hud && h >= 2 {
+    // HUD (suppressed in screensaver mode)
+    if aq.show_hud && !aq.screensaver && h >= 2 {
         draw_hud(renderer, aq, fps_est);
     }
 
     // Help overlay
-    if aq.show_help {
+    if aq.show_help && !aq.screensaver {
         draw_help(renderer, aq);
     }
 
