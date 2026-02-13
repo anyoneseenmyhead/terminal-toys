@@ -14,13 +14,13 @@ These projects focus on:
 
 ## Requirements
 
-Most issues users encounter are related to terminal choice, font support, or Unicode rendering rather than the code itself.
+Most issues are related to terminal choice and font support. 
 
 - Rust (stable)
 - A UTF-8 capable terminal  
 - Recommended terminals: Kitty, Alacritty, Windows Terminal
 
-Some projects use Unicode Braille characters and benefit from truecolor support.
+Some projects use Unicode Braille characters and benefit from truecolor support. For Linux users, I've found that Adwaita Mono seems to work well.
 
 ## Installing Rust and Cargo
 
