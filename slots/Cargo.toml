@@ -1,0 +1,11 @@
+# Cargo.toml
+[package]
+name = "slots"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+crossterm = "0.27"
+rand = "0.8"
+rand_chacha = "0.3"

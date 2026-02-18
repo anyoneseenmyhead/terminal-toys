@@ -1,0 +1,10 @@
+[package]
+name = "wobbletext"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+crossterm = "0.28"
+glam = "0.28"
+fontdue = "0.9"
+anyhow = "1.0"
