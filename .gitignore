@@ -5,4 +5,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
-/target/
+
+# Rust build outputs (root + all crate subdirectories)
+**/target/
