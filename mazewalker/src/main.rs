@@ -256,6 +256,11 @@ fn main() -> io::Result<()> {
     ];
     let mut fg_idx: usize = 0;
     let mut bg_idx: usize = 0;
+    if screensaver {
+        let startup = Instant::now().elapsed().as_nanos() as usize ^ 0xBADC0DE;
+        fg_idx = startup % fg_choices.len();
+        bg_idx = (startup / 7) % bg_choices.len();
+    }
 
     execute!(
         stdout,

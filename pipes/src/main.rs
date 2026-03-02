@@ -607,6 +607,9 @@ fn run(stdout: &mut io::Stdout, screensaver: bool) -> Result<()> {
     let gz = 24;
 
     let mut world = World::new(0xC0FFEE, gx, gy, gz);
+    if screensaver {
+        world.palette_i = world.rng.gen_range(0..world.palette.len());
+    }
     let mut segments: Vec<Segment> = Vec::with_capacity(1200);
 
     let mut cam = Camera {

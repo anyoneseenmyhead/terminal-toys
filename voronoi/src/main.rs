@@ -230,6 +230,15 @@ fn main() -> io::Result<()> {
 
     let mut show_hud = args.hud && !args.screensaver;
     let mut mode = RenderMode::Edges;
+    let mut palette_offset: usize = 0;
+    if args.screensaver {
+        mode = match rng.gen_range(0..3) {
+            0 => RenderMode::Edges,
+            1 => RenderMode::Fill,
+            _ => RenderMode::Gradient,
+        };
+        palette_offset = rng.gen_range(0..24);
+    }
 
     let mut seeds_n = args.seeds.max(2);
     let mut speed = args.speed.max(0.05);
@@ -477,7 +486,7 @@ fn main() -> io::Result<()> {
                 }
 
                 // color by majority owner
-                let col = palette(major_id);
+                let col = palette(major_id + palette_offset);
                 if current_color != Some(col) {
                     queue!(out, SetForegroundColor(col))?;
                     current_color = Some(col);

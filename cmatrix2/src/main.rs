@@ -173,6 +173,7 @@ fn main() -> Result<()> {
         println!("cmatrix2 {}", env!("CARGO_PKG_VERSION"));
         return Ok(());
     }
+    let screensaver = args.iter().any(|a| a == "--screensaver");
 
     let mut out = stdout();
 
@@ -186,7 +187,7 @@ fn main() -> Result<()> {
         Clear(ClearType::All)
     )?;
 
-    let result = run(&mut out);
+    let result = run(&mut out, screensaver);
 
     execute!(
         out,
@@ -200,7 +201,7 @@ fn main() -> Result<()> {
     result
 }
 
-fn run(out: &mut std::io::Stdout) -> Result<()> {
+fn run(out: &mut std::io::Stdout, screensaver: bool) -> Result<()> {
     let mut rng = StdRng::from_entropy();
     let mut cache = GlyphCache::new();
 
@@ -222,7 +223,16 @@ fn run(out: &mut std::io::Stdout) -> Result<()> {
         shimmer_ttl_max: 16,
         cache_prune_every: 60,
 
-        theme: Theme::Green,
+        theme: if screensaver {
+            match rng.gen_range(0..4) {
+                0 => Theme::Green,
+                1 => Theme::Purple,
+                2 => Theme::Amber,
+                _ => Theme::Ice,
+            }
+        } else {
+            Theme::Green
+        },
     };
 
     let mut last_frame = Instant::now();

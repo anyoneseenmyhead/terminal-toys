@@ -323,6 +323,13 @@ fn main() -> io::Result<()> {
         let mut trails = true;
         let mut theme_index: usize = DEFAULT_THEME_INDEX;
         let mut warp = warp_arg;
+        if screensaver {
+            theme_index = rng.gen_range(0..THEMES.len());
+            trails = rng.gen_bool(0.7);
+            if !warp_arg {
+                warp = rng.gen_bool(0.35);
+            }
+        }
 
         let mut speed = if warp { 2.15_f32 } else { 1.0_f32 };
         let mut exposure = 1.0_f32;

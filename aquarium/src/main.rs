@@ -324,6 +324,9 @@ impl Aquarium {
             feed_impulse: None,
             screensaver,
         };
+        if screensaver {
+            a.theme_ix = a.rng.gen_range(0..themes().len());
+        }
         for _ in 0..9 {
             a.spawn_fish();
         }

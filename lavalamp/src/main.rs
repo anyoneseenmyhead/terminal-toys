@@ -292,6 +292,11 @@ impl Sim {
             paused: false,
             show_hud: !screensaver,
         };
+        if screensaver {
+            s.theme_idx = s.rng.gen_range(0..5);
+            s.heat = s.rng.gen_range(0.30..0.80);
+            s.wobble = s.rng.gen_range(0.30..0.85);
+        }
         s.reset_blobs(9);
         s
     }
