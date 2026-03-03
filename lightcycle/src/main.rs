@@ -9,7 +9,7 @@ use std::panic;
 use std::thread;
 use std::time::{Duration, Instant};
 
-use clap::{Parser, ValueEnum};
+use clap::Parser;
 use crossterm::cursor::{Hide, Show};
 use crossterm::event;
 use crossterm::execute;
@@ -23,23 +23,17 @@ use render::{HudData, RenderConfig, Renderer};
 use sim::{Round, RoundOutcome, SimConfig};
 use util::{default_seed, splitmix64};
 
-#[derive(Clone, Copy, Debug, ValueEnum)]
-enum ModeArg {
-    Game,
-    Screensaver,
-}
-
 #[derive(Parser, Debug)]
 #[command(
     name = "lightcycle",
     version,
     about = "TRON-style terminal lightcycle arena",
     long_about = "TRON-style terminal lightcycle arena.\n\nIn game mode, you control cycle C1. The round waits for your first direction input before simulation starts.",
-    after_help = "Controls:\n  WASD / Arrow keys   Steer (90-degree turns)\n  Space               Pause/resume\n  R                   Restart round\n  V                   Toggle wall visibility (debug)\n  E                   Drop wall segment (limited charges)\n  Q / Ctrl+C          Quit\n\nExamples:\n  lightcycle\n  lightcycle --mode screensaver --cycles 10\n  lightcycle --speed 16 --fps 120 --seed 42\n  lightcycle --no-color --glow"
+    after_help = "Controls:\n  WASD / Arrow keys   Steer (90-degree turns)\n  Space               Pause/resume\n  R                   Restart round\n  V                   Toggle wall visibility (debug)\n  E                   Drop wall segment (limited charges)\n  Q / Ctrl+C          Quit\n\nExamples:\n  lightcycle\n  lightcycle --screensaver --cycles 10\n  lightcycle --speed 16 --fps 120 --seed 42\n  lightcycle --no-color --glow"
 )]
 struct Cli {
-    #[arg(long, value_enum, default_value_t = ModeArg::Game, help = "Run mode: interactive game or AI-only screensaver")]
-    mode: ModeArg,
+    #[arg(long, help = "Run in AI-only screensaver mode")]
+    screensaver: bool,
     #[arg(
         long,
         default_value_t = 6,
@@ -144,7 +138,7 @@ impl AppState {
     fn new(cli: Cli, term_w: u16, term_h: u16) -> Self {
         let base_seed = cli.seed.unwrap_or_else(default_seed);
 
-        let screensaver = matches!(cli.mode, ModeArg::Screensaver);
+        let screensaver = cli.screensaver;
         let sim_cfg = SimConfig {
             cycles: cli.cycles.max(2),
             margin: cli.margin,
